@@ -11,9 +11,9 @@ ADD . /workspace/
 RUN pip install --trusted-host nexus.daocloud.io -r requirements.txt
 
 
-CMD "python manage.py migrate; \
-    python manage.py collectstatic --noinput; \
-    gunicorn -w 5 -b 0.0.0.0:8000 jinns.wsgi;"
+CMD bash -c "python manage.py migrate; \
+             python manage.py collectstatic --noinput; \
+             gunicorn -w 5 -b 0.0.0.0:8000 jinns.wsgi"
 
 
 #celery multi start w1 -A jinns_backend --workdir=/workspace/ --logfile=/var/log/w1.log -B;
