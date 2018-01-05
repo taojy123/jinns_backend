@@ -57,8 +57,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
 
-    'shops',
-    'event',
+    'shop',
+    'book',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -243,10 +243,10 @@ CORS_ALLOW_HEADERS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'shops.authentication.ShopTokenAuthentication',
+        'shop.authentication.ShopTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'shops.permissions.IsShopOwnerOrReadOnly',
+        'shop.permissions.IsShopOwnerOrReadOnly',
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
@@ -273,7 +273,7 @@ CELERYD_TASK_TIME_LIMIT = 60 * 30
 # Celery Schedule
 CELERYBEAT_SCHEDULE = {
     'daily_task': {
-        'task': 'event.tasks.daily_task',
+        'task': 'book.tasks.daily_task',
         'schedule': crontab(hour=1, minute=0),
         'args': (),
     },

@@ -1,5 +1,5 @@
 
-from shops.models import Shop
+from shop.models import Shop
 
 
 class CurrentShopDefault(object):

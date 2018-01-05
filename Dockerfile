@@ -1,8 +1,8 @@
-FROM daocloud.io/python:3.5
+FROM python:3.6
 
 MAINTAINER taojy(taojy123@163.com)
 
-RUN apt-get update && apt-get install -y gcc gettext --no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y vim gcc gettext --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /workspace
 WORKDIR /workspace
@@ -16,11 +16,12 @@ CMD "python manage.py migrate; \
     gunicorn -w 5 -b 0.0.0.0:8000 jinns.wsgi;"
 
 
-#celery multi start w1 -A jinns_backend --workdir=/workspace/ -B;
-#celery flower --app=jinns_backend --address=0.0.0.0 --url_prefix=flower --basic_auth=admin:1234abcd;
+#celery multi start w1 -A jinns_backend --workdir=/workspace/ --logfile=/var/log/w1.log -B;
+#celery flower --app=jinns_backend --address=0.0.0.0 --basic_auth=admin:admin;
 
 
 # ==================== run argv ===============================
+#-p 8000:8000
 #-v /var/www/html:/var/www/html
 # =============================================================
 

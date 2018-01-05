@@ -1,11 +1,11 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 
-from event.views import EventViewSet
+from book.views import RoomViewSet
 
 router = routers.DefaultRouter()
 
-router.register(r'event', EventViewSet, base_name='event')
+router.register(r'room', RoomViewSet, base_name='room')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

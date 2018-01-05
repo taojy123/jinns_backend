@@ -1,7 +1,7 @@
 
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-from shops.models import Shop
+from shop.models import Shop
 
 
 class IsAuthenticatedShop(BasePermission):

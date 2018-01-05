@@ -21,8 +21,8 @@ from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     url(r'^api/admin/', admin.site.urls),
-    url(r'^api/shops/', include('shops.urls', namespace='shop')),
-    url(r'^api/event/', include('event.urls', namespace='event')),
+    url(r'^api/shop/', include('shop.urls', namespace='shop')),
+    url(r'^api/book/', include('book.urls', namespace='book')),
     url(r'^api/docs/', include_docs_urls())
 ]
 

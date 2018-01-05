@@ -3,7 +3,7 @@ import random
 import requests
 from rest_framework.exceptions import APIException
 
-from shops.models import Shop
+from shop.models import Shop
 
 HTTP_494_HEYSHOP_API_ERROR = 494
 
@@ -73,7 +73,7 @@ def heyshop_plain_api_request(url, method='get', **kwargs):
 
 
 def get_shop_name_by_domain(domain):
-    url = 'https://heidianapi.com/api/shops/shop_front/'
+    url = 'https://heidianapi.com/api/shop/shop_front/'
     r = requests.get(url, headers={'x-shop-domain': domain}).json()
     shop_name = r['shop']['name']
     return shop_name

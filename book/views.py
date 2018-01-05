@@ -11,10 +11,10 @@ from rest_framework import viewsets, mixins, generics, exceptions, response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from jinns.utils import shop_api_request, get_shop_by_domain
-from event.models import Event
-from event.serializers import EventSerializer
-from shops.models import Shop
-from shops.permissions import HasShopDomain
+from book.models import Room
+from book.serializers import RoomSerializer
+from shop.models import Shop
+from shop.permissions import HasShopDomain
 
 import logging
 
@@ -22,29 +22,28 @@ import logging
 logger = logging.getLogger('apps')
 
 
-class EventFilter(filters.FilterSet):
+class RoomFilter(filters.FilterSet):
 
     order_by = filters.OrderingFilter(fields=['id'])
 
-    title = filters.CharFilter(lookup_expr='icontains')
+    name = filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         strict = STRICTNESS.IGNORE
-        model = Event
+        model = Room
         fields = {
             'id': ['exact', 'in'],
-            'title': ['exact', 'in'],
         }
 
 
-class EventViewSet(viewsets.ModelViewSet):
-    serializer_class = EventSerializer
+class RoomViewSet(viewsets.ModelViewSet):
+    serializer_class = RoomSerializer
     permission_classes = [HasShopDomain]
-    filter_class = EventFilter
+    filter_class = RoomFilter
     pagination_class = None
 
     def get_queryset(self):
         shop = get_shop_by_domain(self.request.shop_domain)
-        return Event.objects.filter(shop=shop)
+        return Room.objects.filter(shop=shop)
 
 
