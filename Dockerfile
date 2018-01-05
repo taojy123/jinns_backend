@@ -11,8 +11,8 @@ ADD . /workspace/
 RUN pip install --trusted-host nexus.daocloud.io -r requirements.txt
 
 
-CMD bash -c "python manage.py migrate; \
-             python manage.py collectstatic --noinput; \
+CMD bash -c "python manage.py migrate && \
+             python manage.py collectstatic --noinput && \
              gunicorn -w 5 -b 0.0.0.0:8000 jinns.wsgi"
 
 
