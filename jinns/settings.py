@@ -148,8 +148,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_ROOT = '/var/www/html/jinns_backend/media/'
+STATIC_ROOT = '/var/www/html/jinns_backend/static/'
+
 STATIC_URL = '/api/static/'
-STATIC_ROOT = '/var/www/html'
+MEDIA_URL = '/api/media/'
 
 
 # Logging

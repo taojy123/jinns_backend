@@ -2,7 +2,9 @@ FROM python:3.6
 
 MAINTAINER taojy(taojy123@163.com)
 
-RUN apt-get update && apt-get install -y vim gcc gettext --no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get install -y vim net-tools iputils-ping gcc gettext --no-install-recommends
+RUN rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /workspace
 WORKDIR /workspace
