@@ -31,12 +31,22 @@ class Shop(Model):
         return self.name
 
 
-class ShopPic(models.Model):
+class ShopPic(Model):
 
     shop = models.ForeignKey(Shop)
     pic = models.ImageField(upload_to='shop_pic')
     position = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.pic.url
 
 
+class Coupon(Model):
+
+    shop = models.ForeignKey(Shop)
+    name = models.CharField(max_length=255, blank=True)
+    price = models.FloatField(default=10)
+
+    def __str__(self):
+        return self.name
 

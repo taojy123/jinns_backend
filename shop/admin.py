@@ -18,3 +18,11 @@ class ShopPicAdmin(admin.ModelAdmin):
     list_filter = ['shop']
 
 
+@admin.register(models.Coupon)
+class CouponAdmin(admin.ModelAdmin):
+
+    list_display = ['id', 'shop', 'name', 'price']
+    raw_id_fields = ['shop']
+    list_filter = ['shop']
+
+

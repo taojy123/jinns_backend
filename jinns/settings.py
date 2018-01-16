@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django_filters',
 
     'shop',
+    'customer',
     'book',
 ]
 
@@ -256,6 +257,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'shop.permissions.IsShopOwnerOrReadOnly',
+        'shop.permissions.HasShop',
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'

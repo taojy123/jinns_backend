@@ -15,8 +15,8 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
 
-    list_display = ['id', 'shop', 'category', 'order_number', 'room', 'price', 'status']
-    raw_id_fields = ['shop', 'room']
+    list_display = ['id', 'shop', 'category', 'order_number', 'price', 'status']
+    raw_id_fields = ['shop']
     search_fields = ['order_number']
     list_filter = ['shop', 'status']
 

@@ -44,7 +44,7 @@ class Order(Model):
         ('paid', '已支付'),
         ('refunding', '退款中'),
         ('refund', '已退款'),
-        ('cancel', '已取消'),  # 长时间未支付的订单
+        ('cancel', '已取消'),  # 未支付的订单
     )
 
     shop = models.ForeignKey('shop.Shop')
@@ -53,13 +53,33 @@ class Order(Model):
     price = models.FloatField(help_text='订单总价 单位元')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='pending')
 
-    room = models.ForeignKey(Room, null=True, blank=True, on_delete=models.SET_NULL)
+    full_name = models.CharField(max_length=255, blank=True, help_text='姓名')
+    mobile = models.CharField(max_length=255, blank=True, help_text='手机')
+    remark = models.TextField(blank=True, help_text='备注')
+
+    # 支付信息
+    use_balance = models.FloatField(default=0)
+    use_coupon = models.ForeignKey('customer.CouponCode', blank=True, null=True)
+    use_wx = models.FloatField(default=0)
+
+    # 订房订单
     starts_at = models.DateField(null=True, blank=True)
     ends_at = models.DateField(null=True, blank=True)
+    arrive = models.CharField(max_length=255, blank=True, help_text='到店时间')
 
     @property
     def days(self):
         return (self.ends_at - self.starts_at).days
+
+    @property
+    def rooms(self):
+        return self.orderroom_set.all()
+
+
+class OrderRoom(Model):
+    order = models.ForeignKey(Order)
+    room = models.ForeignKey(Room, null=True, blank=True, on_delete=models.SET_NULL)
+    quantity = models.IntegerField(default=1)
 
 
 

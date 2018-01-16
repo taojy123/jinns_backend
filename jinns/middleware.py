@@ -1,3 +1,6 @@
+from rest_framework import exceptions
+
+from shop.models import Shop
 
 
 class Middleware(object):
@@ -9,10 +12,16 @@ class Middleware(object):
         This is for the purpose of displaying the request body in error report mail.
         """
 
-        request.shop_domain = request.GET.get('shop')
+        shop_id = request.GET.get('shop_id')
 
-        # x-shop-domain
-        if not request.shop_domain and 'HTTP_X_SHOP_DOMAIN' in request.META:
-            request.shop_domain = request.META['HTTP_X_SHOP_DOMAIN']
+        # x-shop-id
+        if not shop_id and 'HTTP_X_SHOP_ID' in request.META:
+            shop_id = request.META['HTTP_X_SHOP_ID']
+
+        shop = Shop.objects.filter(id=shop_id).first()
+
+        request.shop = shop
+
+
 
 

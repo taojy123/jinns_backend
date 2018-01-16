@@ -11,10 +11,9 @@ from rest_framework import viewsets, mixins, generics, exceptions, response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from jinns.utils import shop_api_request, get_shop_by_domain
-from book.models import Room
-from book.serializers import RoomSerializer
+from book.models import Room, Order
+from book.serializers import RoomSerializer, OrderSerializer
 from shop.models import Shop
-from shop.permissions import HasShopDomain
 
 import logging
 
@@ -38,12 +37,19 @@ class RoomFilter(filters.FilterSet):
 
 class RoomViewSet(viewsets.ModelViewSet):
     serializer_class = RoomSerializer
-    permission_classes = [HasShopDomain]
     filter_class = RoomFilter
     pagination_class = None
 
     def get_queryset(self):
-        shop = get_shop_by_domain(self.request.shop_domain)
-        return Room.objects.filter(shop=shop)
+        return Room.objects.filter(shop=self.request.shop)
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    serializer_class = OrderSerializer
+    filter_class = RoomFilter
+    pagination_class = None
+
+    def get_queryset(self):
+        return Order.objects.filter(shop=self.request.shop)
 
 
