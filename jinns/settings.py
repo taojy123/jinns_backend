@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'shop',
     'customer',
     'book',
+    'mall',
 ]
 
 MIDDLEWARE_CLASSES = [

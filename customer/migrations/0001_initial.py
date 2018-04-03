@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import jsonfield.fields
-import shop.models
 
 
 class Migration(migrations.Migration):
@@ -13,49 +12,36 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('shop', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Coupon',
+            name='CouponCode',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('metafield', jsonfield.fields.JSONField(default=dict)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(blank=True, max_length=255)),
-                ('price', models.FloatField(default=10)),
+                ('coupon', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shop.Coupon')),
             ],
             options={
                 'abstract': False,
             },
         ),
         migrations.CreateModel(
-            name='Shop',
+            name='Customer',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('metafield', jsonfield.fields.JSONField(default=dict)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(blank=True, max_length=255)),
-                ('address', models.CharField(blank=True, max_length=255)),
-                ('phone', models.CharField(blank=True, max_length=255)),
-                ('location', models.CharField(blank=True, help_text='坐标定位: 120.23,38.92', max_length=255)),
-                ('token', models.CharField(default=shop.models.make_token, max_length=255)),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='ShopPic',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('metafield', jsonfield.fields.JSONField(default=dict)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('pic', models.ImageField(upload_to='shop_pic')),
-                ('position', models.IntegerField(default=0)),
+                ('full_name', models.CharField(blank=True, max_length=255)),
+                ('mobile', models.CharField(blank=True, max_length=255)),
+                ('balance', models.FloatField(default=0, help_text='账户余额')),
+                ('openid', models.CharField(blank=True, max_length=255)),
+                ('nickname', models.CharField(blank=True, max_length=255)),
+                ('headimgurl', models.CharField(blank=True, max_length=255)),
                 ('shop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shop.Shop')),
             ],
             options={
@@ -63,8 +49,8 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AddField(
-            model_name='coupon',
-            name='shop',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shop.Shop'),
+            model_name='couponcode',
+            name='customer',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='customer.Customer'),
         ),
     ]

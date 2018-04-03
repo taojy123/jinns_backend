@@ -7,7 +7,7 @@ class CurrentShopDefault(object):
     shop = None
 
     def set_context(self, serializer_field):
-        self.shop = serializer_field.context['request'].user
+        self.shop = serializer_field.context['request'].shop
         assert isinstance(self.shop, Shop)
 
     def __call__(self):
