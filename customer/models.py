@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+from django.db.models import Sum
+
 from jinns.models import Model
 
 import logging
@@ -12,7 +14,6 @@ class Customer(Model):
     shop = models.ForeignKey('shop.Shop')
     full_name = models.CharField(max_length=255, blank=True)
     mobile = models.CharField(max_length=255, blank=True)
-    balance = models.FloatField(default=0, help_text='账户余额')
 
     # wx
     openid = models.CharField(max_length=255, blank=True)
@@ -21,6 +22,32 @@ class Customer(Model):
 
     def __str__(self):
         return self.full_name
+
+    def balance(self):
+        return self.balancehistory_set.all().aggregate(Sum('amount')).get('amount__sum') or 0
+
+    def points(self):
+        return self.pointhistory_set.all().aggregate(Sum('amount')).get('amount__sum') or 0
+
+
+class PointHistory(Model):
+
+    customer = models.ForeignKey(Customer)
+    amount = models.IntegerField(default=0)
+    reason = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.reason
+
+
+class BalanceHistory(Model):
+
+    customer = models.ForeignKey(Customer)
+    amount = models.FloatField(default=0)
+    reason = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.reason
 
 
 class CouponCode(Model):

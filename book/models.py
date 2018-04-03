@@ -37,6 +37,7 @@ class Order(Model):
 
     CATEGORY_CHOICES = (
         ('room', '订房'),
+        ('mall', '商城'),
     )
 
     STATUS_CHOICES = (
