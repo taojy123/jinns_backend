@@ -21,3 +21,10 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['shop', 'status']
 
 
+@admin.register(models.OrderRoom)
+class OrderRoomAdmin(admin.ModelAdmin):
+
+    list_display = ['id', 'order', 'room', 'quantity']
+    raw_id_fields = ['order', 'room']
+
+
