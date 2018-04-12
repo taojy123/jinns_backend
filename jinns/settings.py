@@ -255,9 +255,10 @@ CORS_ALLOW_HEADERS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'shop.authentication.ShopTokenAuthentication',
+        'customer.authentication.CustomerTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'shop.permissions.IsShopOwnerOrReadOnly',
+        # 'shop.permissions.IsShopOwnerOrReadOnly',
         'shop.permissions.HasShop',
     ],
     'DEFAULT_FILTER_BACKENDS': [
