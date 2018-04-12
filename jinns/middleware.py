@@ -21,7 +21,7 @@ class Middleware(object):
         shop = Shop.objects.filter(id=shop_id).first()
 
         if not shop:
-            shop = Shop.objects.order_by('id').first()g
+            shop = Shop.objects.order_by('id').first()
 
         request.shop = shop
 
