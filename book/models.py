@@ -21,13 +21,14 @@ class Room(Model):
     name = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     pic = models.ImageField(upload_to='room_pic')
+    price = models.FloatField(default=100)
+    quantity = models.IntegerField(default=5)
     area = models.CharField(max_length=255, blank=True, help_text='面积')
     bed_type = models.CharField(max_length=255, blank=True, help_text='床型')
     window = models.CharField(max_length=255, blank=True, help_text='窗户')
     bed_width = models.CharField(max_length=255, blank=True, help_text='床宽')
     capacity = models.CharField(max_length=255, blank=True, help_text='入住人数')
     floor = models.CharField(max_length=255, blank=True, help_text='所在楼层')
-    price = models.FloatField(default=100)
 
     def __str__(self):
         return self.name
