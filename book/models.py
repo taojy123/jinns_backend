@@ -20,7 +20,7 @@ class Room(Model):
     shop = models.ForeignKey('shop.Shop')
     name = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
-    pic = models.ImageField(upload_to='room_pic')
+    pic = models.CharField(max_length=500, blank=True)
     price = models.FloatField(default=100)
     quantity = models.IntegerField(default=5)
     area = models.CharField(max_length=255, blank=True, help_text='面积')

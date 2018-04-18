@@ -34,7 +34,7 @@ class Shop(Model):
 class ShopPic(Model):
 
     shop = models.ForeignKey(Shop)
-    pic = models.ImageField(upload_to='shop_pic')
+    pic = models.CharField(max_length=500, blank=True)
     position = models.IntegerField(default=0)
 
     def __str__(self):

@@ -210,11 +210,6 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True
         },
-        'django.request': {
-            'handlers': ['mail_admins', 'request_log_file'],
-            'level': 'INFO',
-            'propagate': True
-        },
         'apps': {
             'handlers': ['mail_admins', 'app_log_file'],
             'level': 'INFO',
@@ -225,11 +220,13 @@ LOGGING = {
 
 
 # Email
-EMAIL_PORT = 80  # 25 端口在新购的阿里云 VPC 上受到限制, 需要使用 465 SSL 加密端口, 或者用阿里云邮件推送服务特别支持的 80 端口
-SERVER_EMAIL = 'support@notice.heidianer.com'
-EMAIL_HOST = 'smtpdm.aliyun.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+SERVER_EMAIL = 'watchmen123456@163.com'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'watchmen123456'
+EMAIL_HOST_PASSWORD = 'wm123456'
+EMAIL_SUBJECT_PREFIX = '[jinns_backend] '
 
 
 # CORS
