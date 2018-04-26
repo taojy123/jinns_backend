@@ -46,7 +46,6 @@ class RoomViewSet(viewsets.ModelViewSet):
 
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
-    filter_class = RoomFilter
     pagination_class = None
 
     def get_queryset(self):
