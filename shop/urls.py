@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 
-from shop.views import GenerateTokenView, ShopViewSet, ShopPicViewSet, CouponViewSet
+from shop.views import GenerateTokenView, ShopViewSet, ShopPicViewSet, CouponViewSet, QiniuUptokenView
 
 router = routers.DefaultRouter()
 
@@ -14,4 +14,5 @@ router.register(r'coupons', CouponViewSet, base_name='coupons')
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^oauth/token/$', GenerateTokenView.as_view(), name='generate_token'),
+    url(r'^qiniu/uptoken/$', QiniuUptokenView.as_view(), name='qiniu_uptoken'),
 ]

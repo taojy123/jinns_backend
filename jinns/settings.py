@@ -266,10 +266,13 @@ REST_FRAMEWORK = {
 }
 
 
-# heyshop oauth
-CLIENT_ID = ''
-CLIENT_SECRET = ''
-DEFAULT_REDIRECT_URI = 'https://jinns.heidian.io/oauthcode/'
+# qiniu
+QINIU_ACCESS_KEY = 'QzBPrPDb8Vu1V0c2KV4ZL73exW4MkcjViESE9QKI'
+QINIU_SECRET_KEY = 'pZnjwR_M_e-kTbLPi2EVKRSM4SdTDczs30Z_p49G'
+QINIU_BUCKET_NAME = 'heidianup'
+QINIU_BUCKET_DOMAIN = 'p7iw1e96j.bkt.clouddn.com'
+QINIU_SECURE_URL = False
+
 
 
 # Celery

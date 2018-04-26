@@ -1,4 +1,5 @@
-
+import qiniu
+from django.conf import settings
 from rest_framework import generics, response, exceptions, viewsets
 
 from shop.models import Shop, ShopPic, Coupon
@@ -42,4 +43,20 @@ class GenerateTokenView(generics.GenericAPIView):
         shop_domain = request.data.get('shop')
         return response.Response()
 
+
+class QiniuUptokenView(generics.GenericAPIView):
+
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        access_key = settings.QINIU_ACCESS_KEY
+        secret_key = settings.QINIU_SECRET_KEY
+        bucket = settings.QINIU_BUCKET_NAME
+        q = qiniu.Auth(access_key, secret_key)
+        token = q.upload_token(bucket, key=None, expires=3600 * 24 * 30)
+        return response.Response({
+            'uptoken': token,
+            'expires_in': 3600 * 24 * 30
+        })
 
