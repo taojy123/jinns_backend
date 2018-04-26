@@ -54,7 +54,7 @@ class QiniuUptokenView(generics.GenericAPIView):
         secret_key = settings.QINIU_SECRET_KEY
         bucket = settings.QINIU_BUCKET_NAME
         q = qiniu.Auth(access_key, secret_key)
-        token = q.upload_token(bucket, key=None, expires=3600 * 24 * 30)
+        token = q.upload_token(bucket, expires=3600 * 24 * 30)
         return response.Response({
             'uptoken': token,
             'expires_in': 3600 * 24 * 30
