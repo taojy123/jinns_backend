@@ -20,8 +20,3 @@ class Product(Model):
     def __str__(self):
         return self.name
 
-
-class OrderProduct(Model):
-    order = models.ForeignKey('book.Order')
-    product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
-    quantity = models.IntegerField(default=1)

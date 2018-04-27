@@ -11,12 +11,3 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ['shop']
 
-
-@admin.register(models.OrderProduct)
-class OrderProductAdmin(admin.ModelAdmin):
-
-    list_display = ['id', 'order', 'product', 'quantity']
-    raw_id_fields = ['order', 'product']
-
-
-
