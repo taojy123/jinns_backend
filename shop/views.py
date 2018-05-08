@@ -13,6 +13,9 @@ class ShopViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Shop.objects.filter(id=self.request.shop.id)
 
+    def get_object(self):
+        return self.get_queryset().get()
+
     def list(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
