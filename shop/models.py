@@ -16,6 +16,7 @@ class Shop(Model):
     name = models.CharField(max_length=255, blank=True)
     address = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=255, blank=True)
+    pic = models.CharField(max_length=500, blank=True, help_text='主图')
     location = models.CharField(max_length=255, blank=True, help_text='坐标定位: 120.23,38.92')
     token = models.CharField(max_length=255, default=make_token)
 

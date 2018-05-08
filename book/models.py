@@ -9,18 +9,12 @@ import logging
 logger = logging.getLogger('apps')
 
 
-def make_order_number():
-    # 18 位订单编号
-    now = timezone.localtime(timezone.now()).strftime('%Y%m%d%H%M%S')
-    return now + str(random.randint(1000, 9999))
-
-
 class Room(Model):
 
     shop = models.ForeignKey('shop.Shop')
     name = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
-    pic = models.CharField(max_length=500, blank=True)
+    pic = models.CharField(max_length=500, blank=True, help_text='主图')
     price = models.FloatField(default=100)
     quantity = models.IntegerField(default=5)
     area = models.CharField(max_length=255, blank=True, help_text='面积')
@@ -32,5 +26,9 @@ class Room(Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def pics(self):
+        return [self.pic] * 3
 
 

@@ -14,6 +14,7 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = ['id', 'shop', 'name', 'description', 'pic', 'price', 'quantity',
-                  'area', 'bed_type', 'window', 'bed_width', 'capacity', 'floor']
+                  'area', 'bed_type', 'window', 'bed_width', 'capacity', 'floor',
+                  'pics']
 
 

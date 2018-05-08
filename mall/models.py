@@ -14,7 +14,7 @@ class Product(Model):
     shop = models.ForeignKey('shop.Shop')
     name = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
-    pic = models.CharField(max_length=500, blank=True)
+    pic = models.CharField(max_length=500, blank=True, help_text='主图')
     price = models.FloatField(default=100)
 
     def __str__(self):

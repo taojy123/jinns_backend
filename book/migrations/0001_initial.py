@@ -7,6 +7,8 @@ from django.db import migrations, models
 import django.db.models.deletion
 import jsonfield.fields
 
+import order
+
 
 class Migration(migrations.Migration):
 
@@ -26,7 +28,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('category', models.CharField(choices=[('room', '订房')], default='room', max_length=255)),
-                ('order_number', models.CharField(default=book.models.make_order_number, help_text='订单号', max_length=255)),
+                ('order_number', models.CharField(default=order.models.make_order_number, help_text='订单号', max_length=255)),
                 ('price', models.FloatField(help_text='订单总价 单位元')),
                 ('status', models.CharField(choices=[('pending', '待支付'), ('paid', '已支付'), ('refunding', '退款中'), ('refund', '已退款'), ('cancel', '已取消')], default='pending', max_length=255)),
                 ('full_name', models.CharField(blank=True, help_text='姓名', max_length=255)),
