@@ -28,6 +28,10 @@ class Shop(Model):
     def reviews_count(self):
         return 1000
 
+    @property
+    def pics(self):
+        return [self.pic] * 3
+
     def __str__(self):
         return self.name
 
@@ -39,7 +43,7 @@ class ShopPic(Model):
     position = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.pic.url
+        return self.pic
 
 
 class Coupon(Model):

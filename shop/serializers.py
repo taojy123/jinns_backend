@@ -9,7 +9,7 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shop
-        fields = ['id', 'name', 'address', 'phone', 'location', 'score', 'reviews_count']
+        fields = ['id', 'name', 'address', 'phone', 'location', 'score', 'reviews_count', 'pic', 'pics']
 
 
 class ShopPicSerializer(serializers.ModelSerializer):
