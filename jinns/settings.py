@@ -256,8 +256,9 @@ REST_FRAMEWORK = {
         'customer.authentication.CustomerTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'shop.permissions.IsShopOwnerOrReadOnly',
         'shop.permissions.HasShop',
+        # 'shop.permissions.IsShopOwnerOrReadOnly',
+        # 'customer.permissions.IsCustomerOwnerOrReadOnly',
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'

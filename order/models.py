@@ -35,6 +35,7 @@ class Order(Model):
     )
 
     shop = models.ForeignKey('shop.Shop')
+    customer = models.ForeignKey('customer.Customer', blank=True, null=True, on_delete=models.SET_NULL)
     category = models.CharField(max_length=255, choices=CATEGORY_CHOICES, default='room')
     order_number = models.CharField(max_length=255, default=make_order_number, help_text='订单号')
     price = models.FloatField(help_text='订单总价 单位元')
