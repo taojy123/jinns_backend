@@ -59,7 +59,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 raise exceptions.ParseError(tips)
             if count <= 0:
                 raise exceptions.ParseError(tips)
-            rs.append(room_id, count)
+            rs.append((room_id, count))
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
