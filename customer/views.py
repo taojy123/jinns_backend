@@ -3,7 +3,7 @@ from rest_framework import generics, response, exceptions, viewsets
 from rest_framework.decorators import list_route
 
 from customer.models import Customer, CouponCode
-from customer.permissions import IsCustomerOwner
+from customer.permissions import IsCustomerOwner, IsCustomerOwnerOrReadOnly
 from customer.serializers import CustomerSerializer, CouponCodeSerializer
 from order.models import Order
 from order.serializers import OrderSerializer
@@ -32,7 +32,7 @@ class CouponCodeViewSet(viewsets.ModelViewSet):
 
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
-    permission_classes = [IsCustomerOwner]
+    permission_classes = [IsCustomerOwnerOrReadOnly]
     pagination_class = None
     lookup_field = 'order_number'
 
