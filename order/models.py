@@ -38,8 +38,8 @@ class Order(Model):
     customer = models.ForeignKey('customer.Customer', blank=True, null=True, on_delete=models.SET_NULL)
     category = models.CharField(max_length=255, choices=CATEGORY_CHOICES, default='room')
     order_number = models.CharField(max_length=255, default=make_order_number, help_text='订单号')
-    price = models.FloatField(help_text='订单总价 单位元')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='pending')
+    price = models.FloatField(default=0, help_text='订单总价 单位元')
 
     full_name = models.CharField(max_length=255, blank=True, help_text='姓名')
     mobile = models.CharField(max_length=255, blank=True, help_text='手机')
@@ -73,6 +73,23 @@ class Order(Model):
         if not self.order_number:
             self.order_number = timezone.now().strftime('%Y%m%d%D%M%S') + str(random.randint(1000, 9999))
         return super().save(*args, **kwargs)
+
+    def calculate_total_price(self, need_save=False):
+        total_price = 0
+        if self.category == 'room':
+            for item in self.orderroom_set.all():
+                if not item.room:
+                    continue
+                total_price += item.room.price * item.quantity
+        elif self.category == 'mall':
+            for item in self.orderproduct_set.all():
+                if not item.product:
+                    continue
+                total_price += item.product.price * item.quantity
+        self.price = total_price
+        if need_save:
+            self.save()
+        return total_price
 
 
 class OrderRoom(Model):

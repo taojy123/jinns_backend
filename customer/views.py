@@ -70,9 +70,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         if isinstance(customer, Customer):
             order.customer = customer
 
-        order.save(update_fields=['customer'])
-
         for room_id, count in rs:
             order.orderroom_set.create(room_id=room_id, quantity=count)
+
+        order.calculate_total_price()
+        order.save()
 
         return response.Response(self.get_serializer(order).data)
