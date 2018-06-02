@@ -34,6 +34,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [IsCustomerOwner]
     pagination_class = None
+    lookup_field = 'order_number'
 
     def get_queryset(self):
         return Order.objects.filter(customer=self.request.user)

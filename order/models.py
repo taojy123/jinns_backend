@@ -71,7 +71,7 @@ class Order(Model):
 
     def save(self, *args, **kwargs):
         if not self.order_number:
-            self.order_number = timezone.now().strftime('%Y%m%d%D%M%S') + str(random.randint(1000, 9999))
+            self.order_number = timezone.now().strftime('%Y%m%d%D%M%S') + str(random.randint(10, 99))
         return super().save(*args, **kwargs)
 
     def calculate_total_price(self, need_save=False):
