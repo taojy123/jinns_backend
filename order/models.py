@@ -69,6 +69,14 @@ class Order(Model):
         product_ids = self.orderproduct_set.all().values_list('product_id', flat=True)
         return Product.objects.filter(id__in=product_ids)
 
+    @property
+    def order_rooms(self):
+        return self.orderroom_set.all()
+
+    @property
+    def order_products(self):
+        return self.orderproduct_set.all()
+
     def save(self, *args, **kwargs):
         if not self.order_number:
             self.order_number = timezone.now().strftime('%Y%m%d%D%M%S') + str(random.randint(10, 99))
