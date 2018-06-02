@@ -69,6 +69,11 @@ class Order(Model):
         product_ids = self.orderproduct_set.all().values_list('product_id', flat=True)
         return Product.objects.filter(id__in=product_ids)
 
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = timezone.now().strftime('%Y%m%d%D%M%S') + str(random.randint(1000, 9999))
+        return super().save(*args, **kwargs)
+
 
 class OrderRoom(Model):
     order = models.ForeignKey(Order)
