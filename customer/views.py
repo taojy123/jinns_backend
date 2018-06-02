@@ -1,6 +1,7 @@
 
 from rest_framework import generics, response, exceptions, viewsets
 from rest_framework.decorators import list_route
+from rest_framework.generics import get_object_or_404
 
 from customer.models import Customer, CouponCode
 from customer.permissions import IsCustomerOwner, IsCustomerOwnerOrReadOnly
@@ -35,6 +36,11 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsCustomerOwnerOrReadOnly]
     pagination_class = None
     lookup_field = 'order_number'
+
+    def get_object(self):
+        obj = get_object_or_404(Order, order_number=self.kwargs['order_number'])
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def get_queryset(self):
         return Order.objects.filter(customer=self.request.user)
