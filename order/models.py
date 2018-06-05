@@ -81,15 +81,9 @@ class Order(Model):
     def title(self):
         r = ''
         for item in self.orderroom_set.all():
-            r += item.name
-            if item.quantity > 1:
-                r += '* %d' % item.quantity
-            r += ', '
+            r += str(item) + ', '
         for item in self.orderproduct_set.all():
-            r += item.name
-            if item.quantity > 1:
-                r += '* %d' % item.quantity
-            r += ', '
+            r += str(item) + ', '
         return r.strip(', ')
 
     @property
@@ -107,13 +101,9 @@ class Order(Model):
     def calculate_total_price(self, need_save=False):
         total_price = 0
         for item in self.orderroom_set.all():
-            if not item.room:
-                continue
-            total_price += item.room.price * item.quantity
+            total_price += item.total_price
         for item in self.orderproduct_set.all():
-            if not item.product:
-                continue
-            total_price += item.product.price * item.quantity
+            total_price += item.total_price
         self.price = total_price
         if need_save:
             self.save()
@@ -125,8 +115,34 @@ class OrderRoom(Model):
     room = models.ForeignKey(Room, null=True, blank=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField(default=1)
 
+    def __str__(self):
+        if not self.room:
+            return ''
+        if self.quantity > 1:
+            return '%s * %d' % (self.room.name, self.quantity)
+        return self.room.name
+
+    @property
+    def total_price(self):
+        if not self.room:
+            return 0
+        return self.room.price * self.quantity
+
 
 class OrderProduct(Model):
     order = models.ForeignKey(Order)
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        if not self.product:
+            return ''
+        if self.quantity > 1:
+            return '%s * %d' % (self.product.name, self.quantity)
+        return self.product.name
+
+    @property
+    def total_price(self):
+        if not self.product:
+            return 0
+        return self.product.price * self.quantity
