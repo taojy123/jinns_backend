@@ -77,6 +77,28 @@ class Order(Model):
     def order_products(self):
         return self.orderproduct_set.all()
 
+    @property
+    def title(self):
+        r = ''
+        for item in self.orderroom_set.all():
+            r += item.name
+            if item.quantity > 1:
+                r += '* %d' % item.quantity
+            r += ', '
+        for item in self.orderproduct_set.all():
+            r += item.name
+            if item.quantity > 1:
+                r += '* %d' % item.quantity
+            r += ', '
+        return r.strip(', ')
+
+    @property
+    def pic(self):
+        items = list(self.rooms) or list(self.products)
+        if items:
+            return items[0].pic
+        return ''
+
     def save(self, *args, **kwargs):
         if not self.order_number:
             self.order_number = timezone.now().strftime('%Y%m%d%D%M%S') + str(random.randint(10, 99))
@@ -84,16 +106,14 @@ class Order(Model):
 
     def calculate_total_price(self, need_save=False):
         total_price = 0
-        if self.category == 'room':
-            for item in self.orderroom_set.all():
-                if not item.room:
-                    continue
-                total_price += item.room.price * item.quantity
-        elif self.category == 'mall':
-            for item in self.orderproduct_set.all():
-                if not item.product:
-                    continue
-                total_price += item.product.price * item.quantity
+        for item in self.orderroom_set.all():
+            if not item.room:
+                continue
+            total_price += item.room.price * item.quantity
+        for item in self.orderproduct_set.all():
+            if not item.product:
+                continue
+            total_price += item.product.price * item.quantity
         self.price = total_price
         if need_save:
             self.save()
