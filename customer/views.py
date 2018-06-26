@@ -2,6 +2,7 @@
 from rest_framework import generics, response, exceptions, viewsets
 from rest_framework.decorators import list_route
 from rest_framework.generics import get_object_or_404
+from django_filters import rest_framework as filters, STRICTNESS
 
 from customer.models import Customer, CouponCode
 from customer.permissions import IsCustomerOwner, IsCustomerOwnerOrReadOnly
@@ -34,10 +35,28 @@ class CouponCodeViewSet(viewsets.ModelViewSet):
         return CouponCode.objects.filter(customer=self.request.user)
 
 
+class OrderFilter(filters.FilterSet):
+
+    order_by = filters.OrderingFilter(fields=['id', 'starts_at', 'created_at', 'updated_at'])
+
+    class Meta:
+        strict = STRICTNESS.IGNORE
+        model = Order
+        fields = {
+            'id': ['exact', 'in'],
+            'category': ['exact', 'in'],
+            'status': ['exact', 'in'],
+            'order_number': ['exact', 'icontains'],
+            'starts_at': ['gte', 'lte'],
+            'ends_at': ['gte', 'lte'],
+        }
+
+
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [IsCustomerOwnerOrReadOnly]
     pagination_class = None
+    filter_class = OrderFilter
     lookup_field = 'order_number'
 
     def get_object(self):
@@ -48,7 +67,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if not isinstance(self.request.user, Customer):
             raise exceptions.NotAuthenticated()
-        return Order.objects.filter(customer=self.request.user)
+        return Order.objects.filter(customer=self.request.user).order_by('-id')
 
     @list_route(methods=['post'], permission_classes=[])
     def checkout(self, request, *args, **kwargs):
