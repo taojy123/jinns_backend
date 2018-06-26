@@ -4,11 +4,10 @@ from django.db import models
 from jinns.models import Model
 
 import logging
+
+from jinns.utils import make_token
+
 logger = logging.getLogger('apps')
-
-
-def make_token():
-    return uuid.uuid4().hex
 
 
 class Shop(Model):

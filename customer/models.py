@@ -6,6 +6,9 @@ from django.db.models import Sum
 from jinns.models import Model
 
 import logging
+
+from jinns.utils import make_token
+
 logger = logging.getLogger('apps')
 
 
@@ -14,6 +17,7 @@ class Customer(Model):
     shop = models.ForeignKey('shop.Shop')
     full_name = models.CharField(max_length=255, blank=True)
     mobile = models.CharField(max_length=255, blank=True)
+    token = models.CharField(max_length=255, default=make_token)
 
     # wx
     openid = models.CharField(max_length=255, blank=True)

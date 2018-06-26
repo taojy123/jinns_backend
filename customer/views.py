@@ -43,6 +43,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         return obj
 
     def get_queryset(self):
+        if not isinstance(self.request.user, Customer):
+            raise exceptions.NotAuthenticated()
         return Order.objects.filter(customer=self.request.user)
 
     @list_route(methods=['post'], permission_classes=[])
@@ -84,3 +86,14 @@ class OrderViewSet(viewsets.ModelViewSet):
         order.save()
 
         return response.Response(self.get_serializer(order).data)
+
+
+class GetCustomerTokenView(generics.GenericAPIView):
+    serializer_class = CustomerSerializer
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        openid = request.query_params.get('openid')
+        customer = get_object_or_404(Customer, openid=openid)
+        return response.Response({'token': customer.token})
