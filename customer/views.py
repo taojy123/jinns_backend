@@ -15,6 +15,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsCustomerOwner]
     pagination_class = None
 
+    def get_object(self):
+        return self.get_queryset().get()
+
     def get_queryset(self):
         return Customer.objects.filter(id=self.request.user.id)
 
