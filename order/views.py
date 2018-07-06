@@ -2,7 +2,6 @@
 from rest_framework import viewsets, mixins, generics, exceptions, response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from jinns.utils import shop_api_request, get_shop_by_domain
 from order.models import Order
 from order.serializers import OrderSerializer
 from shop.models import Shop
