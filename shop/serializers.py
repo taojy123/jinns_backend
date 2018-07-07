@@ -35,7 +35,7 @@ class BalanceHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BalanceHistory
-        fields = ['id', 'customer', 'amount', 'reason']
+        fields = ['id', 'customer', 'amount', 'reason', 'created_at']
 
 
 class CouponSerializer(serializers.ModelSerializer):
