@@ -22,9 +22,10 @@ from rest_framework.documentation import include_docs_urls
 urlpatterns = [
     url(r'^api/admin/', admin.site.urls),
     url(r'^api/shop/', include('shop.urls', namespace='shop')),
-    url(r'^api/customer/', include('customer.urls', namespace='customer')),
     url(r'^api/book/', include('book.urls', namespace='book')),
     url(r'^api/mall/', include('mall.urls', namespace='mall')),
+    url(r'^api/order/', include('order.urls', namespace='order')),
+    url(r'^api/customer/', include('customer.urls', namespace='customer')),
     url(r'^api/docs/', include_docs_urls())
 ]
 
