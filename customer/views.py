@@ -1,4 +1,4 @@
-
+from django.db.models import Q
 from rest_framework import generics, response, exceptions, viewsets
 from rest_framework.decorators import list_route
 from rest_framework.generics import get_object_or_404
@@ -38,6 +38,20 @@ class CouponCodeViewSet(viewsets.ModelViewSet):
 class OrderFilter(filters.FilterSet):
 
     order_by = filters.OrderingFilter(fields=['id', 'starts_at', 'created_at', 'updated_at'])
+
+    keyword = filters.CharFilter(method='filter_keyword')
+
+    def filter_keyword(self, queryset, name, value):
+
+        if not value:
+            return queryset
+
+        q1 = Q(order_number__icontains=value)
+        q2 = Q(full_name__icontains=value)
+        q3 = Q(mobile=value)
+        queryset = queryset.filter(q1 | q2 | q3)
+
+        return queryset
 
     class Meta:
         strict = STRICTNESS.IGNORE
