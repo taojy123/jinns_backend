@@ -6,9 +6,9 @@ from django_filters import rest_framework as filters, STRICTNESS
 
 
 from customer.models import Customer, BalanceHistory
-from customer.serializers import CustomerSerializer
 from shop.models import Shop, ShopPic, Coupon
-from shop.serializers import ShopSerializer, ShopPicSerializer, CouponSerializer, BalanceHistorySerializer
+from shop.serializers import ShopSerializer, ShopPicSerializer, CouponSerializer, BalanceHistorySerializer, \
+    CustomerSerializer
 
 
 class ShopViewSet(viewsets.ModelViewSet):
@@ -48,7 +48,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 class BalanceHistoryFilter(filters.FilterSet):
 
-    order_by = filters.BalanceHistoryingFilter(fields=['id', 'created_at'])
+    order_by = filters.OrderingFilter(fields=['id', 'created_at'])
 
     class Meta:
         strict = STRICTNESS.RETURN_NO_RESULTS

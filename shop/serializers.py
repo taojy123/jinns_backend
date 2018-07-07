@@ -2,8 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers, exceptions
 
-from customer.models import BalanceHistory
-from customer.serializers import CustomerSerializer
+from customer.models import BalanceHistory, Customer
 from shop.models import Shop, ShopPic, Coupon
 
 
@@ -19,6 +18,15 @@ class ShopPicSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShopPic
         fields = ['id', 'pic', 'position']
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+
+    shop_id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Customer
+        fields = ['id', 'shop_id', 'full_name', 'mobile', 'balance', 'points', 'openid', 'nickname', 'headimgurl']
 
 
 class BalanceHistorySerializer(serializers.ModelSerializer):
