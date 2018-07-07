@@ -9,6 +9,7 @@ from customer.permissions import IsCustomerOwner, IsCustomerOwnerOrReadOnly
 from customer.serializers import CustomerSerializer, CouponCodeSerializer
 from order.models import Order
 from order.serializers import OrderSerializer
+from order.views import OrderFilter
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -33,37 +34,6 @@ class CouponCodeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return CouponCode.objects.filter(customer=self.request.user)
-
-
-class OrderFilter(filters.FilterSet):
-
-    order_by = filters.OrderingFilter(fields=['id', 'starts_at', 'created_at', 'updated_at'])
-
-    keyword = filters.CharFilter(method='filter_keyword')
-
-    def filter_keyword(self, queryset, name, value):
-
-        if not value:
-            return queryset
-
-        q1 = Q(order_number__icontains=value)
-        q2 = Q(full_name__icontains=value)
-        q3 = Q(mobile=value)
-        queryset = queryset.filter(q1 | q2 | q3)
-
-        return queryset
-
-    class Meta:
-        strict = STRICTNESS.IGNORE
-        model = Order
-        fields = {
-            'id': ['exact', 'in'],
-            'category': ['exact', 'in'],
-            'status': ['exact', 'in'],
-            'order_number': ['exact', 'icontains'],
-            'starts_at': ['gte', 'lte'],
-            'ends_at': ['gte', 'lte'],
-        }
 
 
 class OrderViewSet(viewsets.ModelViewSet):
