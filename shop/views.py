@@ -1,7 +1,10 @@
 import qiniu
 from django.conf import settings
 from rest_framework import generics, response, exceptions, viewsets
+from rest_framework.decorators import detail_route
 
+from customer.models import Customer
+from customer.serializers import CustomerSerializer
 from shop.models import Shop, ShopPic, Coupon
 from shop.serializers import ShopSerializer, ShopPicSerializer, CouponSerializer
 
@@ -26,6 +29,21 @@ class ShopPicViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return ShopPic.objects.filter(shop=self.request.shop)
+
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomerSerializer
+
+    def get_queryset(self):
+        return Customer.objects.filter(shop=self.request.shop)
+
+    @detail_route(methods=['post'])
+    def set_balance(self, request, *args, **kwargs):
+        customer = self.get_object()
+        amount = request.data.get('amount', 0)
+        reason = request.data.get('reason', '')
+        customer.balancehistory_set.create(amount=amount, reason=reason)
+        return self.get_serializer(customer).data
 
 
 class CouponViewSet(viewsets.ModelViewSet):
