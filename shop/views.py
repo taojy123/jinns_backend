@@ -43,7 +43,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
         amount = request.data.get('amount', 0)
         reason = request.data.get('reason', '')
         customer.balancehistory_set.create(amount=amount, reason=reason)
-        return self.get_serializer(customer).data
+        return response.Response(self.get_serializer(customer).data)
 
 
 class CouponViewSet(viewsets.ModelViewSet):
