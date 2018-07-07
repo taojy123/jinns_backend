@@ -65,7 +65,7 @@ class BalanceHistoryViewSet(viewsets.ModelViewSet):
     filter_class = BalanceHistoryFilter
 
     def get_queryset(self):
-        return BalanceHistory.objects.filter(shop=self.request.shop).order_by('-id')
+        return BalanceHistory.objects.filter(customer__shop=self.request.shop).order_by('-id')
 
 
 class CouponViewSet(viewsets.ModelViewSet):
