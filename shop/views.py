@@ -2,16 +2,17 @@ import qiniu
 from django.conf import settings
 from rest_framework import generics, response, exceptions, viewsets
 from rest_framework.decorators import detail_route
+from django_filters import rest_framework as filters, STRICTNESS
 
-from customer.models import Customer
+
+from customer.models import Customer, BalanceHistory
 from customer.serializers import CustomerSerializer
 from shop.models import Shop, ShopPic, Coupon
-from shop.serializers import ShopSerializer, ShopPicSerializer, CouponSerializer
+from shop.serializers import ShopSerializer, ShopPicSerializer, CouponSerializer, BalanceHistorySerializer
 
 
 class ShopViewSet(viewsets.ModelViewSet):
     serializer_class = ShopSerializer
-    pagination_class = None
 
     def get_queryset(self):
         return Shop.objects.filter(id=self.request.shop.id)
@@ -25,7 +26,6 @@ class ShopViewSet(viewsets.ModelViewSet):
 
 class ShopPicViewSet(viewsets.ModelViewSet):
     serializer_class = ShopPicSerializer
-    pagination_class = None
 
     def get_queryset(self):
         return ShopPic.objects.filter(shop=self.request.shop)
@@ -46,9 +46,30 @@ class CustomerViewSet(viewsets.ModelViewSet):
         return response.Response(self.get_serializer(customer).data)
 
 
+class BalanceHistoryFilter(filters.FilterSet):
+
+    order_by = filters.BalanceHistoryingFilter(fields=['id', 'created_at'])
+
+    class Meta:
+        strict = STRICTNESS.RETURN_NO_RESULTS
+        model = BalanceHistory
+        fields = {
+            'id': ['exact', 'in'],
+            'customer': ['exact', 'in'],
+            'created_at': ['gte', 'lte'],
+        }
+
+
+class BalanceHistoryViewSet(viewsets.ModelViewSet):
+    serializer_class = BalanceHistorySerializer
+    filter_class = BalanceHistoryFilter
+
+    def get_queryset(self):
+        return BalanceHistory.objects.filter(shop=self.request.shop)
+
+
 class CouponViewSet(viewsets.ModelViewSet):
     serializer_class = CouponSerializer
-    pagination_class = None
 
     def get_queryset(self):
         return Coupon.objects.filter(shop=self.request.shop)
