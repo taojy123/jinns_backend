@@ -1,7 +1,8 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 
-from shop.views import GenerateTokenView, ShopViewSet, ShopPicViewSet, CouponViewSet, QiniuUptokenView, CustomerViewSet
+from shop.views import GenerateTokenView, ShopViewSet, ShopPicViewSet, CouponViewSet, QiniuUptokenView, CustomerViewSet, \
+    BalanceHistoryViewSet
 
 router = routers.DefaultRouter()
 
@@ -9,6 +10,7 @@ router = routers.DefaultRouter()
 router.register(r'shops', ShopViewSet, base_name='shops')
 router.register(r'shop_pics', ShopPicViewSet, base_name='shop_pics')
 router.register(r'customers', CustomerViewSet, base_name='customers')
+router.register(r'balance_historys', BalanceHistoryViewSet, base_name='balance_historys')
 router.register(r'coupons', CouponViewSet, base_name='coupons')
 
 
