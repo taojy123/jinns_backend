@@ -14,7 +14,6 @@ logger = logging.getLogger('apps')
 
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
-    pagination_class = None
 
     def get_queryset(self):
         return Order.objects.filter(shop=self.request.shop)

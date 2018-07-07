@@ -29,7 +29,6 @@ class RoomFilter(filters.FilterSet):
 class RoomViewSet(viewsets.ModelViewSet):
     serializer_class = RoomSerializer
     filter_class = RoomFilter
-    pagination_class = None
 
     def get_queryset(self):
         return Room.objects.filter(shop=self.request.shop)

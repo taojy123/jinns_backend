@@ -16,7 +16,6 @@ logger = logging.getLogger('apps')
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-    pagination_class = None
 
     def get_queryset(self):
         return Product.objects.filter(shop=self.request.shop)
