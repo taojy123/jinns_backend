@@ -30,7 +30,7 @@ class Product(Model):
     description = models.TextField(blank=True)
     description_pic = models.CharField(max_length=500, blank=True, help_text='详情图')
 
-    is_hot = models.CharField(max_length=500, blank=True, help_text='是否热卖')
+    is_hot = models.BooleanField(default=False, help_text='是否热卖')
     hot_pic = models.CharField(max_length=500, blank=True, help_text='热卖图')
 
     def __str__(self):
