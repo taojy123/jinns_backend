@@ -25,7 +25,7 @@ class BannerViewSet(viewsets.ModelViewSet):
 
 class ProductFilter(filters.FilterSet):
 
-    order_by = filters.ProductingFilter(fields=['id', 'is_hot', 'name'])
+    order_by = filters.OrderingFilter(fields=['id', 'is_hot', 'name'])
 
     class Meta:
         strict = STRICTNESS.RETURN_NO_RESULTS
