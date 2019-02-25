@@ -46,9 +46,10 @@ class Order(Model):
     remark = models.TextField(blank=True, help_text='备注')
 
     # 支付信息
-    use_balance = models.FloatField(default=0)
     use_coupon = models.ForeignKey('customer.CouponCode', blank=True, null=True)
     use_wx = models.FloatField(default=0)
+    use_balance = models.FloatField(default=0)
+    use_point = models.FloatField(default=0)
 
     # 订房订单
     starts_at = models.DateField(null=True, blank=True)
