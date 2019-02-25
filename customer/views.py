@@ -59,7 +59,12 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         tips = 'room 格式为 [{"id": 5, "count": 2}, ...]'
         rooms = request.data.get('rooms')
+        products = request.data.get('products')
+
         if not isinstance(rooms, list):
+            raise exceptions.ParseError(tips)
+
+        if not isinstance(products, list):
             raise exceptions.ParseError(tips)
 
         rs = []
@@ -76,17 +81,33 @@ class OrderViewSet(viewsets.ModelViewSet):
                 raise exceptions.ParseError(tips)
             rs.append((room_id, count))
 
+        ps = []
+        for product in products:
+            product_id = product.get('id')
+            count = product.get('count')
+            if not isinstance(product_id, int):
+                raise exceptions.ParseError(tips)
+            if product_id <= 0:
+                raise exceptions.ParseError(tips)
+            if not isinstance(count, int):
+                raise exceptions.ParseError(tips)
+            if count <= 0:
+                raise exceptions.ParseError(tips)
+            ps.append((product_id, count))
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         order = serializer.instance
 
-        order.category = 'room'
-        if isinstance(customer, Customer):
-            order.customer = customer
-
         for room_id, count in rs:
             order.orderroom_set.create(room_id=room_id, quantity=count)
+
+        for product_id, count in ps:
+            order.orderproduct_set.create(product_id=product_id, quantity=count)
+
+        if isinstance(customer, Customer):
+            order.customer = customer
 
         order.calculate_total_price()
         order.save()
