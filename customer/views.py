@@ -58,8 +58,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         customer = request.user
 
         tips = 'room 格式为 [{"id": 5, "count": 2}, ...]'
-        rooms = request.data.get('rooms')
-        products = request.data.get('products')
+        rooms = request.data.get('rooms') or []
+        products = request.data.get('products') or []
 
         if not isinstance(rooms, list):
             raise exceptions.ParseError(tips)
