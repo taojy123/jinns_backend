@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework import generics, response, exceptions, viewsets
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, detail_route
 from rest_framework.generics import get_object_or_404
 from django_filters import rest_framework as filters, STRICTNESS
 
@@ -92,6 +92,15 @@ class OrderViewSet(viewsets.ModelViewSet):
         order.save()
 
         return response.Response(self.get_serializer(order).data)
+
+    @detail_route(methods=['get'])
+    def coupon_codes(self, request, *args, **kwargs):
+        customer = request.user
+        data = CouponCodeSerializer(customer.couponcode_set.all(), many=True).data
+        for item in data:
+            item['key'] = item.id
+            item['value'] = '%s (¥%.2f)' % (item.coupon.name, item.coupon.price)
+        return response.Response(data)
 
 
 class GetCustomerTokenView(generics.GenericAPIView):
