@@ -57,7 +57,10 @@ class Order(Model):
 
     @property
     def days(self):
-        return (self.ends_at - self.starts_at).days
+        if self.ends_at and self.starts_at:
+            return (self.ends_at - self.starts_at).days
+        else:
+            return 0
 
     @property
     def rooms(self):
