@@ -55,6 +55,9 @@ class Order(Model):
     ends_at = models.DateField(null=True, blank=True)
     arrive = models.CharField(max_length=255, blank=True, help_text='到店时间')
 
+    def __str__(self):
+        return 'Order#%d' % self.id
+
     @property
     def days(self):
         if self.ends_at and self.starts_at:

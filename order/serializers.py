@@ -39,8 +39,10 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'shop', 'customer_id', 'category', 'order_number', 'price', 'status', 'get_status_display', 'full_name', 'mobile', 'remark',
-                  'use_balance', 'use_coupon', 'use_wx', 'starts_at', 'ends_at', 'arrive', 'days', 'order_rooms','order_products',
+        fields = ['id', 'shop', 'customer_id', 'category', 'order_number', 'price', 'status',
+                  'get_status_display', 'full_name', 'mobile', 'remark',
+                  'use_balance', 'use_coupon', 'use_wx', 'starts_at', 'ends_at', 'arrive', 'days',
+                  'order_rooms','order_products',
                   'created_at', 'updated_at', 'title', 'pic',
                   'get_category_display', 'get_status_display']
-        read_only_fields = ['customer_id', 'category', 'order_number', 'price', 'status', 'use_balance', 'use_coupon', 'use_wx']
+        read_only_fields = ['customer_id', 'order_number', 'price', 'status', 'use_balance', 'use_coupon', 'use_wx']
