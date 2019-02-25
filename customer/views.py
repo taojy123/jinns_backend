@@ -57,42 +57,21 @@ class OrderViewSet(viewsets.ModelViewSet):
     def checkout(self, request, *args, **kwargs):
         customer = request.user
 
-        tips = 'room 格式为 [{"id": 5, "count": 2}, ...]'
+        # room, products : [{"id": 5, "count": 2}, ...]
+
         rooms = request.data.get('rooms') or []
         products = request.data.get('products') or []
-
-        if not isinstance(rooms, list):
-            raise exceptions.ParseError(tips)
-
-        if not isinstance(products, list):
-            raise exceptions.ParseError(tips)
 
         rs = []
         for room in rooms:
             room_id = room.get('id')
             count = room.get('count')
-            if not isinstance(room_id, int):
-                raise exceptions.ParseError(tips)
-            if room_id <= 0:
-                raise exceptions.ParseError(tips)
-            if not isinstance(count, int):
-                raise exceptions.ParseError(tips)
-            if count <= 0:
-                raise exceptions.ParseError(tips)
             rs.append((room_id, count))
 
         ps = []
         for product in products:
             product_id = product.get('id')
             count = product.get('count')
-            if not isinstance(product_id, int):
-                raise exceptions.ParseError(tips)
-            if product_id <= 0:
-                raise exceptions.ParseError(tips)
-            if not isinstance(count, int):
-                raise exceptions.ParseError(tips)
-            if count <= 0:
-                raise exceptions.ParseError(tips)
             ps.append((product_id, count))
 
         serializer = self.get_serializer(data=request.data)
