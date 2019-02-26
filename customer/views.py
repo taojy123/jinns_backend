@@ -98,8 +98,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         customer = request.user
         data = CouponCodeSerializer(customer.couponcode_set.all(), many=True).data
         for item in data:
-            item['key'] = item.id
-            item['value'] = '%s (¥%.2f)' % (item.coupon.name, item.coupon.price)
+            item['key'] = item['id']
+            item['value'] = '%s (¥%.2f)' % (item['coupon']['name'], item['coupon']['price'])
         return response.Response(data)
 
 
