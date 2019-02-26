@@ -19,8 +19,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CouponCodeSerializer(serializers.ModelSerializer):
 
     shop = serializers.HiddenField(default=CurrentShopDefault())
-    coupon = CouponSerializer
-    customer = CustomerSerializer
+    coupon = CouponSerializer(read_only=True)
+    customer = CustomerSerializer(read_only=True)
 
     class Meta:
         model = CouponCode
