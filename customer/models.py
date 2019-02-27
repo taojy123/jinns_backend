@@ -63,7 +63,7 @@ class CouponCode(Model):
 
     @property
     def is_used(self):
-        return self.order_set.all().exists()
+        return self.order_set.filter(status='paid').exists()
 
     def __str__(self):
         return self.coupon.name

@@ -97,20 +97,27 @@ class OrderViewSet(viewsets.ModelViewSet):
     def coupon_codes(self, request, *args, **kwargs):
         customer = request.user
         data = CouponCodeSerializer(customer.couponcode_set.all(), many=True).data
+        rs = []
         for item in data:
+            if item['is_used']:
+                continue
             item['key'] = item['id']
             item['value'] = '%s [¥%s]' % (item['coupon']['name'], item['coupon']['price'])
-        return response.Response(data)
+            rs.append(item)
+        return response.Response(rs)
 
     @detail_route(methods=['post'])
     def pay(self, request, *args, **kwargs):
         order = self.get_object()
         customer = request.user
         assert order.customer == customer, (order.id, customer.id)
+        assert order.status == 'pending', (order.id, order.status)
         coupon_code_id = request.data.get('coupon_code_id')
         channel = request.data.get('channel')
         if coupon_code_id:
             coupon_code = CouponCode.objects.get(id=coupon_code_id)
+            if coupon_code.is_used:
+                raise exceptions.ParseError('优惠券已使用')
             order.use_coupon = coupon_code
         if channel == 'balance':
             use_balance = min(customer.balance, order.unpaid_price)
@@ -127,7 +134,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             order.payment_success()
 
         order.refresh_from_db()
-        
+
         return response.Response(self.get_serializer(order).data)
 
 

@@ -24,4 +24,4 @@ class CouponCodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CouponCode
-        fields = ['id', 'shop', 'coupon', 'customer']
+        fields = ['id', 'shop', 'coupon', 'customer', 'is_used']
