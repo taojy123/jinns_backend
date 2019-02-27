@@ -47,9 +47,9 @@ class Order(Model):
 
     # 支付信息
     use_coupon = models.ForeignKey('customer.CouponCode', blank=True, null=True)
-    use_wx = models.FloatField(default=0)
     use_balance = models.FloatField(default=0)
     use_point = models.FloatField(default=0)
+    use_wx = models.FloatField(default=0)
 
     # 订房订单
     starts_at = models.DateField(null=True, blank=True)
@@ -99,6 +99,19 @@ class Order(Model):
         if items:
             return items[0].pic
         return ''
+
+    @property
+    def use_coupon_price(self):
+        if not self.use_coupon:
+            return 0
+        return min(self.use_coupon.coupon.price, self.price)
+
+    @property
+    def unpaid_price(self):
+        p = self.price - self.use_coupon_price - self.use_balance - self.use_point - self.use_wx
+        assert p >= 0, (self.id, p)
+        return p
+
 
     def save(self, *args, **kwargs):
         if not self.order_number:

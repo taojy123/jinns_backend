@@ -6,7 +6,7 @@ from customer import models
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
 
-    list_display = ['id', 'shop', 'full_name', 'mobile', 'openid', 'nickname', 'headimgurl', 'balance', 'points']
+    list_display = ['id', 'shop', 'full_name', 'mobile', 'openid', 'nickname', 'headimgurl', 'balance', 'point']
     raw_id_fields = ['shop']
     list_filter = ['shop']
 

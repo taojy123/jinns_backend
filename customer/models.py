@@ -30,7 +30,7 @@ class Customer(Model):
     def balance(self):
         return self.balancehistory_set.all().aggregate(Sum('amount')).get('amount__sum') or 0
 
-    def points(self):
+    def point(self):
         return self.pointhistory_set.all().aggregate(Sum('amount')).get('amount__sum') or 0
 
 

@@ -13,7 +13,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['id', 'shop', 'full_name', 'mobile', 'balance', 'points', 'openid', 'nickname', 'headimgurl']
+        fields = ['id', 'shop', 'full_name', 'mobile', 'balance', 'point', 'openid', 'nickname', 'headimgurl']
 
 
 class CouponCodeSerializer(serializers.ModelSerializer):

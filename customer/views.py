@@ -102,6 +102,21 @@ class OrderViewSet(viewsets.ModelViewSet):
             item['value'] = '%s [¥%s]' % (item['coupon']['name'], item['coupon']['price'])
         return response.Response(data)
 
+    @detail_route(methods=['post'])
+    def pay(self, request, *args, **kwargs):
+        order = self.get_object()
+        coupon_code_id = request.data.get('coupon_code_id')
+        channel = request.data.get('channel')
+        if coupon_code_id:
+            coupon_code = CouponCode.objects.get(id=coupon_code_id)
+            order.use_coupon = coupon_code
+        if channel == 'balance':
+
+
+
+        return response.Response(data)
+
+
 
 class GetCustomerTokenView(generics.GenericAPIView):
     serializer_class = CustomerSerializer
