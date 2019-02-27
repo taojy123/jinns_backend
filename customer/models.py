@@ -27,9 +27,11 @@ class Customer(Model):
     def __str__(self):
         return self.full_name
 
+    @property
     def balance(self):
         return self.balancehistory_set.all().aggregate(Sum('amount')).get('amount__sum') or 0
 
+    @property
     def point(self):
         return self.pointhistory_set.all().aggregate(Sum('amount')).get('amount__sum') or 0
 
