@@ -105,16 +105,30 @@ class OrderViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['post'])
     def pay(self, request, *args, **kwargs):
         order = self.get_object()
+        customer = request.user
+        assert order.customer == customer, (order.id, customer.id)
         coupon_code_id = request.data.get('coupon_code_id')
         channel = request.data.get('channel')
         if coupon_code_id:
             coupon_code = CouponCode.objects.get(id=coupon_code_id)
             order.use_coupon = coupon_code
         if channel == 'balance':
+            use_balance = min(customer.balance, order.unpaid_price)
+            customer.balancehistory_set.create(amount=-use_balance, reason='#%s订单抵扣' % order.order_number)
+            order.use_balance = use_balance
+        if channel == 'point':
+            use_point_price = min(customer.point / 100, order.unpaid_price)
+            customer.pointhistory_set.create(amount=-use_point_price * 100, reason='#%s订单抵扣' % order.order_number)
+            order.use_point = use_point_price
 
+        order.save()
 
+        if order.unpaid_price == 0:
+            order.payment_success()
 
-        return response.Response(data)
+        order.refresh_from_db()
+        
+        return response.Response(self.get_serializer(order).data)
 
 
 

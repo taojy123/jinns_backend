@@ -112,6 +112,10 @@ class Order(Model):
         assert p >= 0, (self.id, p)
         return p
 
+    def payment_success(self):
+        assert self.unpaid_price == 0, (self.id, self.unpaid_price)
+        self.status = 'paid'
+        self.save()
 
     def save(self, *args, **kwargs):
         if not self.order_number:

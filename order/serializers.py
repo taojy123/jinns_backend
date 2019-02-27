@@ -44,5 +44,5 @@ class OrderSerializer(serializers.ModelSerializer):
                   'use_balance', 'use_coupon', 'use_wx', 'starts_at', 'ends_at', 'arrive', 'days',
                   'order_rooms','order_products',
                   'created_at', 'updated_at', 'title', 'pic',
-                  'get_category_display', 'get_status_display']
+                  'get_category_display', 'get_status_display', 'unpaid_price']
         read_only_fields = ['customer_id', 'order_number', 'price', 'status', 'use_balance', 'use_coupon', 'use_wx']
