@@ -1,6 +1,6 @@
 # Python3.6
 Django==1.11.8
-gunicorn==19.4.5
+gunicorn==19.5.0
 uwsgi==2.0.15
 django-cors-headers==1.1.0
 django-oauth-toolkit==1.0.0
