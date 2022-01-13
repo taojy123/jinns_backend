@@ -13,6 +13,6 @@ coreapi==2.3.3
 celery==3.1.23
 flower==0.9.1
 redis==2.10.3
-Pillow==5.0.0
+Pillow==9.0.0
 qiniu==7.0.6
 
